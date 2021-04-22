@@ -8,6 +8,6 @@ def root():
     return {"message": "Hello world!"}
 
 
-@app.get("/repo/{username}")
-async def get_repo(username: str):
-    return
+@app.get("/git/{username}/repos")
+async def get_repos(username: str):
+    return {"username": f"{username}"}
