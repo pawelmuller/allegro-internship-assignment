@@ -10,6 +10,17 @@ class GitHubUser:
         self.summed_stars_count = None
 
     def import_repositories(self):
-        repos = requests.get(url=f"{URL}/users/{self.name}/repos").json()
+        repos = self.request_repositories()
+        return self.convert_repos(repos)
+
+    def request_repositories(self):
+        return requests.get(url=f"{URL}/users/{self.name}/repos").json()
+
+    @staticmethod
+    def convert_repos(raw_repos):
+        repos = []
+        for raw_repo in raw_repos:
+            repo = GitHubRepository(raw_repo)
+            repos.append(repo)
         return repos
 
