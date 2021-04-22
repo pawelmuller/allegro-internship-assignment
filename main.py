@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from GitHubUser import GitHubUser
 
 app = FastAPI()
 
@@ -10,7 +11,9 @@ def root():
 
 @app.get("/git/{username}/repos")
 async def get_repos(username: str):
-    return {"username": f"{username}"}
+    user = GitHubUser(username)
+    repositories = user.get_repositories()
+    return repositories
 
 
 @app.get("/git/{username}/stars")
