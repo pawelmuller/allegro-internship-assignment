@@ -24,3 +24,5 @@ class GitHubUser:
             repos.append(repo)
         return repos
 
+    def get_repositories(self):
+        return self.repositories
