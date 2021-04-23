@@ -10,3 +10,9 @@ class GitHubRepository:
     @staticmethod
     def extract_stars_count(raw_repository):
         return raw_repository["stargazers_count"]
+
+    def get_name(self):
+        return self.name
+
+    def get_stars_count(self):
+        return self.stars_count
