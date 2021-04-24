@@ -6,8 +6,18 @@ URL = "https://api.github.com"
 class GitHubUser:
     def __init__(self, name: str):
         self.name = name
-        self.repositories = self.import_repositories()
-        self.total_stars_count = self.count_stars()
+        self.is_valid = self.validate_username()
+        if self.is_valid:
+            self.repositories = self.import_repositories()
+            self.total_stars_count = self.count_stars()
+
+    def validate_username(self):
+        r = requests.get(url=f"{URL}/users/{self.name}")
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError:
+            return False
+        return True
 
     def import_repositories(self):
         repos = self.request_repositories()
