@@ -9,10 +9,14 @@ def root():
     return {"message": "Hello world!"}
 
 
-@app.get("/git/users/{username}")
-async def get_repos(username: str):
+@app.get("/git/users/{username}", status_code=status.HTTP_200_OK)
+async def get_repos(username: str, response: Response):
     user = GitHubUser(username)
-    return user
+    if user.is_valid():
+        return user
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"message": "User Not Found"}
 
 
 @app.get("/git/users/{username}/repos")
