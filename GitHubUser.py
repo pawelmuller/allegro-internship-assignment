@@ -7,7 +7,7 @@ class GitHubUser:
     def __init__(self, name: str):
         self.name = name
         self.repositories = self.import_repositories()
-        self.summed_stars_count = None
+        self.total_stars_count = self.count_stars()
 
     def import_repositories(self):
         repos = self.request_repositories()
@@ -23,6 +23,12 @@ class GitHubUser:
             repo = GitHubRepository(raw_repo)
             repos.append(repo)
         return repos
+
+    def count_stars(self):
+        counter = 0
+        for repository in self.repositories:
+            counter += repository.get_stars_count()
+        return counter
 
     def get_repositories(self):
         return self.repositories
