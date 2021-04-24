@@ -32,3 +32,6 @@ class GitHubUser:
 
     def get_repositories(self):
         return self.repositories
+
+    def get_total_stars_count(self):
+        return self.total_stars_count
