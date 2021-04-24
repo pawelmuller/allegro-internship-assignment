@@ -6,8 +6,8 @@ URL = "https://api.github.com"
 class GitHubUser:
     def __init__(self, name: str):
         self.name = name
-        self.is_valid = self.validate_username()
-        if self.is_valid:
+        self.valid = self.validate_username()
+        if self.valid:
             self.repositories = self.import_repositories()
             self.total_stars_count = self.count_stars()
 
@@ -45,3 +45,6 @@ class GitHubUser:
 
     def get_total_stars_count(self):
         return self.total_stars_count
+
+    def is_valid(self):
+        return self.valid
