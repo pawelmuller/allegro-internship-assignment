@@ -54,3 +54,9 @@ def test_convert_repositories(repo, name, stars_count):
     assert converted_repo.name == name
     assert converted_repo.stars_count == stars_count
 
+
+@pytest.mark.parametrize("username, response_code",
+                         [("pawelmuller", 200), ("apple", 200), ("SomeNotSoRandomlyChosenName987", 404)])
+def test_response_codes(username, response_code):
+    response = client.get(f"/git/users/{username}")
+    assert response.status_code == response_code
