@@ -18,4 +18,6 @@ async def get_repos(username: str):
 
 @app.get("/git/{username}/stars")
 async def get_stars(username: str):
-    return {"username": f"{username}"}
+    user = GitHubUser(username)
+    stars_count = user.get_total_stars_count()
+    return {"total_stars_count": stars_count}
