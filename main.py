@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, status
 from GitHubUser import GitHubUser
 
 app = FastAPI()
@@ -30,8 +30,12 @@ async def get_repos(username: str, response: Response):
         return {"message": "User Not Found"}
 
 
-@app.get("/git/users/{username}/stars")
-async def get_stars(username: str):
+@app.get("/git/users/{username}/stars", status_code=status.HTTP_200_OK)
+async def get_stars(username: str, response: Response):
     user = GitHubUser(username)
-    stars_count = user.get_total_stars_count()
-    return {"total_stars_count": stars_count}
+    if user.is_valid():
+        stars_count = user.get_total_stars_count()
+        return {"total_stars_count": stars_count}
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"message": "User Not Found"}
