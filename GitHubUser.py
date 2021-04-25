@@ -9,6 +9,7 @@ class GitHubUser:
         self.valid = self.validate_username()
         if self.valid:
             self.repositories = self.import_repositories()
+            self.repositories_count = len(self.repositories)
             self.total_stars_count = self.count_stars()
 
     def validate_username(self):
@@ -24,7 +25,15 @@ class GitHubUser:
         return self.convert_repos(repos)
 
     def request_repositories(self):
-        return requests.get(url=f"{URL}/users/{self.name}/repos").json()
+        repos = []
+        page_number = 0
+        while True:
+            page_number += 1
+            response = requests.get(url=f"{URL}/users/{self.name}/repos?per_page=100&page={page_number}").json()
+            if response:
+                repos += response
+            else:
+                return repos
 
     @staticmethod
     def convert_repos(raw_repos):
@@ -42,6 +51,9 @@ class GitHubUser:
 
     def get_repositories(self):
         return self.repositories
+
+    def get_repositories_count(self):
+        return self.repositories_count
 
     def get_total_stars_count(self):
         return self.total_stars_count
