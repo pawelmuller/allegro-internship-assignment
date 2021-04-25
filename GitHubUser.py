@@ -24,7 +24,15 @@ class GitHubUser:
         return self.convert_repos(repos)
 
     def request_repositories(self):
-        return requests.get(url=f"{URL}/users/{self.name}/repos").json()
+        repos = []
+        page_number = 0
+        while True:
+            page_number += 1
+            response = requests.get(url=f"{URL}/users/{self.name}/repos?per_page=100&page={page_number}").json()
+            if response:
+                repos += response
+            else:
+                return repos
 
     @staticmethod
     def convert_repos(raw_repos):
