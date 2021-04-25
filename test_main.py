@@ -60,3 +60,8 @@ def test_convert_repositories(repo, name, stars_count):
 def test_response_codes(username, response_code):
     response = client.get(f"/git/users/{username}")
     assert response.status_code == response_code
+
+
+def test_pagination():
+    user = GitHubUser("apple")
+    assert user.get_repositories_count() > 100
