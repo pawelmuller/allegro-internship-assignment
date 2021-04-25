@@ -1,18 +1,22 @@
 # Simple GitHub API
 
 ## Features
-Application implements a very simple GitHub API that allows listing user's repositories and checking number of stars.
+Application implements a very simple GitHub API that allows listing user's public repositories and checking number of
+stars (for each and total).
 
 
 ### Available endpoints
- - `GET` `/git/users/{username}` - allows getting all information about user, such 
- - `GET` `/git/users/{username}/repos` - allows getting list of all user's 
- - `GET` `/git/users/{username}/stars` - allows getting total number of stars in user's repositories
+ - `GET` `/git/users/{username}` - allows getting all information about user, such as name, validity,
+   list of public repositories and total stars count
+ - `GET` `/git/users/{username}/repos` - allows getting list of all user's public repositories
+ - `GET` `/git/users/{username}/stars` - allows getting total number of stars in user's public repositories
 
 
 ### Additionally, each endpoint returns:
  - `200 "OK"` status code if everything is ok
  - `404 "Not Found"` status code if given username does not belong to any user
+ - `404 "Not Found"` status code if given user exists, but has no public repositories
+
 
 
 
@@ -44,3 +48,6 @@ In the future the application could be expanded with following features:
  - A user-friendly interface that would allow using API's features visually (but that's more of front-end development,
    tho)
  - More endpoints thet would implement new features, e.g. listing user's followers or listing who user follows
+ - A temporary cache: not only would we save some requests (since GitHub API has limits per IP per day), but also it
+   would be faster (we would request a built-in database instead of some distant source from the internet)
+
