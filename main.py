@@ -23,8 +23,12 @@ async def get_repos(username: str, response: Response):
 async def get_repos(username: str, response: Response):
     user = GitHubUser(username)
     if user.is_valid():
-        repositories = user.get_repositories()
-        return repositories
+        if user.get_repositories_count():
+            repositories = user.get_repositories()
+            return repositories
+        else:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return {"message": "User Has No Public Repositories"}
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"message": "User Not Found"}

@@ -9,6 +9,7 @@ class GitHubUser:
         self.valid = self.validate_username()
         if self.valid:
             self.repositories = self.import_repositories()
+            self.repositories_count = len(self.repositories)
             self.total_stars_count = self.count_stars()
 
     def validate_username(self):
@@ -50,6 +51,9 @@ class GitHubUser:
 
     def get_repositories(self):
         return self.repositories
+
+    def get_repositories_count(self):
+        return self.repositories_count
 
     def get_total_stars_count(self):
         return self.total_stars_count
